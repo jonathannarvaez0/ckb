@@ -3,17 +3,12 @@ import uwugif from "./assets/erm-fingers.gif";
 import firebase from "./Firebase";
 
 let messageArray = [
-  "riz! hi, kumusta na hahaha, hope ur doin well",
+  "riz! hi, kumusta ka naman, hope ur doin well",
   "may sasabihin me, mukhang long shot but anyways...",
   "if free ka this May, aayain sana kita, for a second date",
 ];
 
-let datesArray = [
-  "May 04, 2024",
-  "May 11, 2024",
-  "May 18, 2024",
-  "May 25, 2024",
-];
+let datesArray = ["May 04", "May 11", "May 18", "May 25"];
 
 function App() {
   const [messageToDisplay, setMessageToDisplay] = useState<number>(0);
@@ -22,13 +17,13 @@ function App() {
 
   const SaveDate = async () => {
     try {
+      setChatVisible(true);
       const db = firebase.firestore();
       await db.collection("dates").add({
         date: datesArray.find((_element, index) => index == selectedDate),
         timestamp: `${new Date().toDateString()} -
                                 ${new Date().toLocaleTimeString()}`,
       });
-      setChatVisible(true);
     } catch (error) {
       console.log(error);
     }
@@ -44,7 +39,7 @@ function App() {
           </div>
           {messageToDisplay == messageArray.length - 1 ? (
             <div className="bg-cream-light p-5 rounded-lg shadow-lg max-w-90 m-auto animate-ball flex flex-col gap-2">
-              <p className="text-2xl text-purple font-medium text-center animate-fade">
+              <p className="text-xl text-purple font-medium text-center animate-fade">
                 When ka pwede hehe
               </p>
               <div className="grid grid-cols-2 gap-2">
@@ -52,7 +47,7 @@ function App() {
                   return (
                     <div
                       key={index}
-                      className={`bg-purple p-3 rounded-md ${
+                      className={`bg-purple p-3 rounded-md text-center ${
                         selectedDate == index && "opacity-25"
                       }`}
                       onClick={() => setSelectedDate(index)}
@@ -109,13 +104,9 @@ function App() {
           )}
         </section>
         <div className="relative">
-          <img
-            src={uwugif}
-            width={200}
-            onClick={() => console.log(selectedDate)}
-          ></img>
+          <img src={uwugif} width={200}></img>
           {chatVisible && (
-            <div className="absolute bg-purple p-2 top-2 -left-10 rounded-xl animate-fade">
+            <div className="absolute bg-purple p-2 top-2 -left-10 rounded-xl">
               <span className="text-cream-dark">see ya!</span>
             </div>
           )}
